@@ -1,6 +1,7 @@
 import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ParticleBackground from "./ParticleBackground";
+import profileImage from "@/assets/profile.jpg";
 
 const HeroSection = () => {
   return (
@@ -19,9 +20,11 @@ const HeroSection = () => {
           {/* Avatar */}
           <div className="mb-8 animate-fade-in" style={{ animationDelay: "0.1s" }}>
             <div className="w-32 h-32 mx-auto rounded-full overflow-hidden ring-4 ring-primary/50 glow-box">
-              <div className="w-full h-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-4xl font-bold text-primary-foreground">
-                AI
-              </div>
+              <img 
+                src={profileImage} 
+                alt="Ahmed Ibrahim" 
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
 
