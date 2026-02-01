@@ -4,7 +4,7 @@ This is my personal portfolio website built with React, TypeScript, and Tailwind
 
 ## Project Info
 
-**URL**: https://my-portfolio-ivory-six-hg71tdvvom.vercel.app/
+**URL**: https://ahmedibrahim-portfolio.vercel.app/
 
 ## How to Run Locally
 
