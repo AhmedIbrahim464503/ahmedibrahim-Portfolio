@@ -15,19 +15,19 @@ const contactInfo = [
   {
     icon: Phone,
     label: "Phone",
-    value: "+92 XXX XXXXXXX",
-    href: "tel:+92XXXXXXXXXX",
+    value: "+92 3429384291",
+    href: "tel:+3429384291",
   },
   {
     icon: Github,
     label: "GitHub",
-    value: "github.com/ahmed-ibrahim",
+    value: "github.com/AhmedIbrahim464503",
     href: "https://github.com",
   },
   {
     icon: Linkedin,
     label: "LinkedIn",
-    value: "linkedin.com/in/ahmed-ibrahim",
+    value: "linkedin.com/in/ahmed-ibrahim-1165122a3",
     href: "https://linkedin.com",
   },
 ];

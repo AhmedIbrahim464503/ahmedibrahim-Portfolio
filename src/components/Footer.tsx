@@ -44,8 +44,8 @@ const Footer = () => {
 
             {/* Copyright */}
             <p className="text-muted-foreground text-sm flex items-center gap-1">
-              © {currentYear} Ahmed Ibrahim. Built with{" "}
-              <Heart size={14} className="text-primary" fill="currentColor" /> 
+              © {currentYear} Ahmed Ibrahim. All rights reserved.
+
             </p>
           </div>
         </div>

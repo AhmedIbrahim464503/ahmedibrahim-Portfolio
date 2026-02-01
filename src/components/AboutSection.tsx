@@ -55,8 +55,7 @@ const AboutSection = () => {
               </p>
 
               <p className="text-muted-foreground leading-relaxed">
-                When I'm not coding, I'm exploring new AI research papers, contributing to 
-                open-source projects, or designing scalable system architectures. I believe 
+                When I'm not coding, I'm exploring new AI technologies and frameworks. I believe 
                 in writing clean, maintainable code and building products that make a difference.
               </p>
 

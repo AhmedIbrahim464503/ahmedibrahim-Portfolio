@@ -1,56 +1,72 @@
-import { ExternalLink, Github, Bot, FileText, Map, ShoppingBag, Coins } from "lucide-react";
+import { ExternalLink, Github, Search, Bot, Activity, HardDrive, Map, Layout, Server, Database } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const projects = [
   {
-    title: "AdmitFlow",
-    icon: Bot,
+    title: "FactFinder",
+    icon: Search,
     description:
-      "A comprehensive university admission platform featuring an AI-powered chatbot that helps students navigate the admission process seamlessly.",
-    problem: "Complex admission processes overwhelm students",
-    solution: "Integrated chatbot provides instant, accurate guidance",
-    tech: ["Python", "LangChain", "React", "MongoDB"],
-    color: "from-cyan-500 to-blue-500",
+      "AI-powered research assistant that automates document retrieval, processing, and knowledge extraction for efficient information gathering.",
+    problem: "Manual research is time-consuming and inefficient",
+    solution: "Automated agent retrieves and synthesizes information",
+    tech: ["Python", "AI/ML", "NLP", "Automation"],
+    color: "from-blue-500 to-cyan-500",
+    github: "https://github.com/AhmedIbrahim464503/FactFinder",
   },
   {
     title: "SmartSubmit",
-    icon: FileText,
+    icon: Bot,
     description:
-      "Intelligent automation system that streamlines the lab report submission process, saving time and reducing manual errors.",
-    problem: "Manual lab report submissions are time-consuming",
-    solution: "Automated workflow handles formatting and submission",
-    tech: ["Python", "Selenium", "Automation"],
+      "Automated LMS submission agent for NUST, streamlining the assignment submission process and reducing manual repetitive tasks.",
+    problem: "Repetitive manual submissions on LMS",
+    solution: "Intelligent agent handles login and valid submissions",
+    tech: ["Python", "Selenium", "Web Automation"],
     color: "from-purple-500 to-pink-500",
+    github: "https://github.com/AhmedIbrahim464503/SmartSubmit",
+  },
+  {
+    title: "Emergency Resource Allocation",
+    icon: Activity,
+    description:
+      "Intelligent system using graph algorithms and AI to optimally distribute emergency resources across locations based on real-time demand.",
+    problem: "Suboptimal dispatch during emergencies",
+    solution: "Graph-based AI optimizes resource distribution",
+    tech: ["Python", "Graph Algorithms", "AI", "Optimization"],
+    color: "from-red-500 to-orange-500",
+    github: "https://github.com/AhmedIbrahim464503/AI-Based-Emergency-Resource-Allocation-System",
+  },
+  {
+    title: "LinkMaster",
+    icon: HardDrive,
+    description:
+      "Modular Python application with PyQt5 GUI for filesystem management: analyzing inodes, hard/symbolic links, and secure deletion.",
+    problem: "Complex low-level filesystem management",
+    solution: "GUI tool for advanced file system operations",
+    tech: ["Python", "PyQt5", "Linux", "System Programming"],
+    color: "from-green-500 to-emerald-500",
+    github: "https://github.com/AhmedIbrahim464503/LinkMaster",
   },
   {
     title: "Congestion Prediction System",
     icon: Map,
     description:
-      "AI-based system for predicting traffic congestion and optimizing emergency resource allocation in urban areas.",
-    problem: "Inefficient emergency response due to traffic",
-    solution: "ML-powered predictions enable proactive resource placement",
-    tech: ["Python", "Machine Learning", "Data Analysis"],
-    color: "from-green-500 to-emerald-500",
+      "AI-driven system for predicting traffic congestion patterns and suggesting smart routing to optimize urban mobility.",
+    problem: "Unpredictable urban traffic jams",
+    solution: "ML models predict congestion for smart routing",
+    tech: ["Python", "Machine Learning", "Data Science"],
+    color: "from-yellow-500 to-amber-500",
+    github: "https://github.com/AhmedIbrahim464503/Congestion-Prediction-And-Smart-Routing-System",
   },
   {
-    title: "NearBuy",
-    icon: ShoppingBag,
+    title: "My Portfolio",
+    icon: Layout,
     description:
-      "Full-stack e-commerce platform connecting users with nearby stores, enabling local commerce discovery and shopping.",
-    problem: "Local businesses struggle with online visibility",
-    solution: "Location-based platform bridges consumers and local shops",
-    tech: ["MongoDB", "Express", "React", "Node.js"],
-    color: "from-orange-500 to-red-500",
-  },
-  {
-    title: "Cash Flow Minimizer",
-    icon: Coins,
-    description:
-      "DSA-based optimization tool that minimizes cash flow transactions in group expenses using graph algorithms.",
-    problem: "Complex group expense settlements",
-    solution: "Graph algorithms optimize and reduce transactions",
-    tech: ["C++", "Graph Algorithms", "DSA"],
-    color: "from-yellow-500 to-orange-500",
+      "Modern, responsive personal portfolio website featuring a premium UI, glassmorphism effects, and dynamic animations.",
+    problem: "Need for a professional online presence",
+    solution: "Showcasing skills and projects in a modern interface",
+    tech: ["React", "TypeScript", "Tailwind CSS", "Vite"],
+    color: "from-indigo-500 to-violet-500",
+    github: "https://github.com/AhmedIbrahim464503/MyPortfolio",
   },
 ];
 
@@ -65,7 +81,7 @@ const ProjectsSection = () => {
               Featured <span className="gradient-text">Projects</span>
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              A showcase of my work in AI/ML, automation, and full-stack development
+              A showcase of my work in AI/ML, automation, and system programming
             </p>
             <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent mx-auto rounded-full mt-4" />
           </div>
@@ -75,14 +91,14 @@ const ProjectsSection = () => {
             {projects.map((project, index) => (
               <div
                 key={project.title}
-                className="glass rounded-2xl overflow-hidden hover-glow transition-all duration-500 hover:-translate-y-2 group"
+                className="glass rounded-2xl overflow-hidden hover-glow transition-all duration-500 hover:-translate-y-2 group flex flex-col h-full"
               >
                 {/* Project Header */}
                 <div
                   className={`h-2 bg-gradient-to-r ${project.color}`}
                 />
-                
-                <div className="p-8">
+
+                <div className="p-8 flex flex-col flex-grow">
                   {/* Icon and Title */}
                   <div className="flex items-start gap-4 mb-4">
                     <div
@@ -98,14 +114,14 @@ const ProjectsSection = () => {
                   </div>
 
                   {/* Description */}
-                  <p className="text-muted-foreground mb-6 leading-relaxed">
+                  <p className="text-muted-foreground mb-6 leading-relaxed flex-grow">
                     {project.description}
                   </p>
 
                   {/* Problem/Solution */}
                   <div className="space-y-3 mb-6">
                     <div className="flex items-start gap-3">
-                      <span className="text-xs font-bold text-destructive bg-destructive/10 px-2 py-1 rounded">
+                      <span className="text-xs font-bold text-destructive bg-destructive/10 px-2 py-1 rounded shrink-0">
                         PROBLEM
                       </span>
                       <p className="text-sm text-muted-foreground">
@@ -113,7 +129,7 @@ const ProjectsSection = () => {
                       </p>
                     </div>
                     <div className="flex items-start gap-3">
-                      <span className="text-xs font-bold text-primary bg-primary/10 px-2 py-1 rounded">
+                      <span className="text-xs font-bold text-primary bg-primary/10 px-2 py-1 rounded shrink-0">
                         SOLUTION
                       </span>
                       <p className="text-sm text-muted-foreground">
@@ -135,22 +151,17 @@ const ProjectsSection = () => {
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="flex gap-3">
+                  <div className="flex gap-3 mt-auto">
                     <Button
+                      asChild
                       variant="outline"
                       size="sm"
-                      className="border-primary/50 hover:bg-primary/10"
+                      className="border-primary/50 hover:bg-primary/10 w-full"
                     >
-                      <Github size={16} className="mr-2" />
-                      GitHub
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="border-primary/50 hover:bg-primary/10"
-                    >
-                      <ExternalLink size={16} className="mr-2" />
-                      Live Demo
+                      <a href={project.github} target="_blank" rel="noopener noreferrer">
+                        <Github size={16} className="mr-2" />
+                        GitHub
+                      </a>
                     </Button>
                   </div>
                 </div>
