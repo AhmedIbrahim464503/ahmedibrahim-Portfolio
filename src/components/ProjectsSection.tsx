@@ -11,7 +11,7 @@ const projects = [
     solution: "Production-grade RAG pipeline with grounded, zero-hallucination generation",
     tech: ["LangChain", "Pinecone", "Llama 3.1", "Gemini", "Next.js"],
     color: "from-emerald-500 to-teal-600",
-    github: "https://github.com/AhmedIbrahim464503",
+    github: "https://github.com/AhmedIbrahim464503/Rahbar-e-Deen",
   },
   {
     title: "InfoBot",
@@ -22,7 +22,7 @@ const projects = [
     solution: "Autonomous, specialized news editing & curation agent",
     tech: ["Python", "AI Agent", "OpenClaw Framework"],
     color: "from-blue-600 to-indigo-600",
-    github: "https://github.com/AhmedIbrahim464503",
+    github: "https://github.com/AhmedIbrahim464503/InfoBot",
   },
   {
     title: "AdmitFlow",
