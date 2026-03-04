@@ -41,26 +41,31 @@ const ContactSection = () => {
     message: "",
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Create form data object
-    const data = new FormData();
-    data.append("name", formData.name);
-    data.append("email", formData.email);
-    data.append("subject", formData.subject);
-    data.append("message", formData.message);
+    setIsSubmitting(true);
 
     try {
-      const response = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        body: data,
         headers: {
-          'Accept': 'application/json'
-        }
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "7a8fc785-05cb-4f44-ac23-be8c739a5d25", 
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        }),
       });
 
-      if (response.ok) {
+      const result = await response.json();
+
+      if (result.success) {
         toast({
           title: "Message Sent!",
           description: "Thank you for reaching out. I'll get back to you soon!",
@@ -79,6 +84,8 @@ const ContactSection = () => {
         description: "There was a problem sending your message. Please try again.",
         variant: "destructive",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -215,11 +222,21 @@ const ContactSection = () => {
 
                 <Button
                   type="submit"
-                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 hover-glow"
+                  disabled={isSubmitting}
+                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 hover-glow disabled:opacity-50 disabled:cursor-not-allowed"
                   size="lg"
                 >
-                  <Send size={18} className="mr-2" />
-                  Send Message
+                  {isSubmitting ? (
+                    <div className="flex items-center gap-2">
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground border-solid border-r-transparent"></div>
+                      Sending...
+                    </div>
+                  ) : (
+                    <>
+                      <Send size={18} className="mr-2" />
+                      Send Message
+                    </>
+                  )}
                 </Button>
               </form>
             </div>

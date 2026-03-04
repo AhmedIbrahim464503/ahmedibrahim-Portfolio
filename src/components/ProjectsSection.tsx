@@ -1,7 +1,29 @@
-import { ExternalLink, Github, Search, Bot, Activity, HardDrive, Map, Layout, Server, Database, GraduationCap } from "lucide-react";
+import { ExternalLink, Github, Search, Bot, Activity, HardDrive, Map, Layout, Server, Database, GraduationCap, Newspaper, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const projects = [
+  {
+    title: "Rahbar-e-Deen (رہبرِ دین)",
+    icon: BookOpen,
+    description:
+      "Enterprise-Grade Multi-Sectarian Islamic RAG Intelligence platform providing grounded answers from the Quran, Hadith, and Tafseer.",
+    problem: "Scattered and unverified Islamic knowledge sources",
+    solution: "Production-grade RAG pipeline with grounded, zero-hallucination generation",
+    tech: ["LangChain", "Pinecone", "Llama 3.1", "Gemini", "Next.js"],
+    color: "from-emerald-500 to-teal-600",
+    github: "https://github.com/AhmedIbrahim464503",
+  },
+  {
+    title: "InfoBot",
+    icon: Newspaper,
+    description:
+      "Autonomous AI news editor built on OpenClaw, delivering high-priority news updates regarding global sports and regional politics.",
+    problem: "Information overload and missing crucial niche updates",
+    solution: "Autonomous, specialized news editing & curation agent",
+    tech: ["Python", "AI Agent", "OpenClaw Framework"],
+    color: "from-blue-600 to-indigo-600",
+    github: "https://github.com/AhmedIbrahim464503",
+  },
   {
     title: "AdmitFlow",
     icon: GraduationCap,
