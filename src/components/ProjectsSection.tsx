@@ -1,7 +1,40 @@
-import { ExternalLink, Github, Search, Bot, Activity, HardDrive, Map, Layout, Server, Database, GraduationCap, Newspaper, BookOpen } from "lucide-react";
+import { ExternalLink, Github, Search, Bot, Activity, HardDrive, Map, Layout, Server, Database, GraduationCap, Newspaper, BookOpen, MessageSquare, Calendar, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const projects = [
+  {
+    title: "Scalable Real-Time Messaging Infrastructure",
+    icon: MessageSquare,
+    description:
+      "A fault-tolerant, horizontally scalable distributed backend for handling high-concurrency, real-time WebSocket messaging.",
+    problem: "Single-server bottleneck and single points of failure under high concurrent traffic",
+    solution: "Distributed backend utilizing Nginx, Node.js nodes, and Redis Pub/Sub for state synchronization",
+    tech: ["Node.js", "Nginx", "Redis", "Supabase", "Next.js"],
+    color: "from-blue-600 to-indigo-600",
+    github: "https://github.com/AhmedIbrahim464503/Scalable-Real-Time-Messaging-Infrastructure",
+  },
+  {
+    title: "TeacherSync: Smart Timetable Assistant",
+    icon: Calendar,
+    description:
+      "AI-assisted timetable management system featuring a Drag-and-Drop dashboard, real-time clash detection, and automated WhatsApp broadcasting.",
+    problem: "Rigid traditional timetable generation and confusing master spreadsheets",
+    solution: "Constraint programming solver combined with an intuitive matrix grid and automated WhatsApp distribution",
+    tech: ["Next.js", "FastAPI", "Google OR-Tools", "PostgreSQL", "whatsapp-web.js"],
+    color: "from-teal-500 to-emerald-600",
+    github: "https://github.com/AhmedIbrahim464503/TeacherSync",
+  },
+  {
+    title: "Intelligent Document Processing (IDP) System",
+    icon: FileText,
+    description:
+      "An end-to-end Edge-AI document scanning and semantic extraction pipeline that replaces manual data entry.",
+    problem: "Manual data entry bottlenecks and OCR ignoring spatial layout context",
+    solution: "Edge vision auto-cropping combined with a multimodal LayoutLMv3 pipeline for structured JSON extraction",
+    tech: ["Next.js", "OpenCV.js", "FastAPI", "LayoutLMv3", "YOLOv8"],
+    color: "from-purple-500 to-fuchsia-600",
+    github: "https://github.com/AhmedIbrahim464503/Intelligent-Document-Processing",
+  },
   {
     title: "Rahbar-e-Deen (رہبرِ دین)",
     icon: BookOpen,
