@@ -1,15 +1,21 @@
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
 
 const CustomCursor = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const mouseRef = useRef({ x: -100, y: -100 });
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
-    // Track pointer position & interactive element hover state
+    // 1. Mouse move handler updating ref and direct DOM position for zero latency
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      mouseRef.current = { x: e.clientX, y: e.clientY };
+
+      if (cursorRef.current) {
+        // Direct DOM update avoids React re-render lag
+        const offset = isHovering ? 20 : 7;
+        cursorRef.current.style.transform = `translate3d(${e.clientX - offset}px, ${e.clientY - offset}px, 0)`;
+      }
 
       const target = e.target as HTMLElement;
       if (target) {
@@ -20,7 +26,7 @@ const CustomCursor = () => {
 
     window.addEventListener("mousemove", handleMouseMove);
 
-    // Canvas magic brush particle trail setup
+    // 2. Canvas setup for magic glowing stardust brush trail
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -58,40 +64,43 @@ const CustomCursor = () => {
     const animate = () => {
       ctx.clearRect(0, 0, width, height);
 
-      // Spawn new particles along the movement path
-      const dx = mousePosition.x - lastX;
-      const dy = mousePosition.y - lastY;
+      const currentX = mouseRef.current.x;
+      const currentY = mouseRef.current.y;
+
+      // Spawn glowing magic brush sparkles along path
+      const dx = currentX - lastX;
+      const dy = currentY - lastY;
       const dist = Math.hypot(dx, dy);
 
-      if (dist > 2 && mousePosition.x >= 0) {
-        const steps = Math.min(Math.floor(dist / 4), 6);
+      if (dist > 1.5 && currentX >= 0) {
+        const steps = Math.min(Math.floor(dist / 3), 8);
         for (let i = 0; i <= steps; i++) {
           const px = lastX + (dx * i) / steps;
           const py = lastY + (dy * i) / steps;
 
           particles.push({
-            x: px + (Math.random() - 0.5) * 8,
-            y: py + (Math.random() - 0.5) * 8,
-            vx: (Math.random() - 0.5) * 1.5,
-            vy: (Math.random() - 0.5) * 1.5 - 0.5, // gentle float upward
-            size: Math.random() * 4 + 1.5,
+            x: px + (Math.random() - 0.5) * 10,
+            y: py + (Math.random() - 0.5) * 10,
+            vx: (Math.random() - 0.5) * 1.8,
+            vy: (Math.random() - 0.5) * 1.8 - 0.4, // gentle float up
+            size: Math.random() * 4.5 + 1.5,
             color: colors[Math.floor(Math.random() * colors.length)],
             alpha: 1,
             life: 1,
-            decay: Math.random() * 0.03 + 0.02,
+            decay: Math.random() * 0.028 + 0.015,
           });
         }
-        lastX = mousePosition.x;
-        lastY = mousePosition.y;
+        lastX = currentX;
+        lastY = currentY;
       }
 
-      // Render brush trail sparkles
+      // Render brush sparkles
       for (let i = particles.length - 1; i >= 0; i--) {
         const p = particles[i];
         p.x += p.vx;
         p.y += p.vy;
         p.life -= p.decay;
-        p.size *= 0.96; // shrink over time
+        p.size *= 0.96;
 
         if (p.life <= 0 || p.size <= 0.2) {
           particles.splice(i, 1);
@@ -100,11 +109,10 @@ const CustomCursor = () => {
 
         ctx.save();
         ctx.globalAlpha = p.life;
-        ctx.shadowBlur = 12;
+        ctx.shadowBlur = 14;
         ctx.shadowColor = p.color;
         ctx.fillStyle = p.color;
 
-        // Draw glowing sparkle dot
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fill();
@@ -121,44 +129,35 @@ const CustomCursor = () => {
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [mousePosition.x, mousePosition.y]);
+  }, [isHovering]);
 
-  // Hide custom cursor on touch/mobile devices
+  // Hide on touch mobile devices
   if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
     return null;
   }
 
   return (
     <>
-      {/* Fullscreen Canvas for Magic Glowing Brush Trail */}
+      {/* Fullscreen Canvas for Magic Brush Trail */}
       <canvas
         ref={canvasRef}
         className="fixed inset-0 pointer-events-none z-[9998]"
       />
 
       {/* Main Core Pointer Dot */}
-      <motion.div
-        className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full mix-blend-screen flex items-center justify-center"
-        animate={{
-          x: mousePosition.x - (isHovering ? 20 : 6),
-          y: mousePosition.y - (isHovering ? 20 : 6),
-          width: isHovering ? 40 : 12,
-          height: isHovering ? 40 : 12,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 800,
-          damping: 35,
-          mass: 0.2,
-        }}
+      <div
+        ref={cursorRef}
+        className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full transition-all duration-75 ease-out flex items-center justify-center"
         style={{
+          width: isHovering ? "40px" : "14px",
+          height: isHovering ? "40px" : "14px",
           background: isHovering
             ? "radial-gradient(circle, rgba(6,182,212,0.4) 0%, rgba(139,92,246,0.1) 70%, transparent 100%)"
             : "#06b6d4",
           boxShadow: isHovering
-            ? "0 0 25px rgba(6,182,212,0.8), inset 0 0 10px rgba(139,92,246,0.6)"
-            : "0 0 14px #06b6d4, 0 0 28px #8b5cf6",
-          border: isHovering ? "1.5px solid rgba(6,182,212,0.8)" : "none",
+            ? "0 0 30px rgba(6,182,212,0.9), inset 0 0 12px rgba(139,92,246,0.7)"
+            : "0 0 15px #06b6d4, 0 0 30px #8b5cf6, 0 0 45px #10b981",
+          border: isHovering ? "1.5px solid rgba(6,182,212,0.9)" : "none",
         }}
       />
     </>
