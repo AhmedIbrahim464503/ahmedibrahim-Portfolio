@@ -3,18 +3,22 @@ import { useEffect, useRef, useState } from "react";
 const CustomCursor = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
   const mouseRef = useRef({ x: -100, y: -100 });
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
-    // 1. Mouse move handler updating ref and direct DOM position for zero latency
+    // Zero-latency direct DOM update for pointer tracking
     const handleMouseMove = (e: MouseEvent) => {
       mouseRef.current = { x: e.clientX, y: e.clientY };
 
       if (cursorRef.current) {
-        // Direct DOM update avoids React re-render lag
-        const offset = isHovering ? 20 : 7;
-        cursorRef.current.style.transform = `translate3d(${e.clientX - offset}px, ${e.clientY - offset}px, 0)`;
+        // Instantaneous position update with ZERO css transition delay on transform
+        cursorRef.current.style.transform = `translate3d(${e.clientX - 4}px, ${e.clientY - 4}px, 0)`;
+      }
+      if (ringRef.current) {
+        const offset = isHovering ? 22 : 16;
+        ringRef.current.style.transform = `translate3d(${e.clientX - offset}px, ${e.clientY - offset}px, 0)`;
       }
 
       const target = e.target as HTMLElement;
@@ -26,7 +30,7 @@ const CustomCursor = () => {
 
     window.addEventListener("mousemove", handleMouseMove);
 
-    // 2. Canvas setup for magic glowing stardust brush trail
+    // Canvas magic brush particle trail setup
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -55,7 +59,7 @@ const CustomCursor = () => {
     }
 
     const particles: TrailParticle[] = [];
-    const colors = ["#06b6d4", "#8b5cf6", "#10b981", "#ec4899", "#3b82f6"];
+    const colors = ["#06b6d4", "#8b5cf6", "#10b981", "#ec4899", "#60a5fa"];
 
     let lastX = -100;
     let lastY = -100;
@@ -67,40 +71,40 @@ const CustomCursor = () => {
       const currentX = mouseRef.current.x;
       const currentY = mouseRef.current.y;
 
-      // Spawn glowing magic brush sparkles along path
+      // Spawn glowing magic brush stardust along movement path
       const dx = currentX - lastX;
       const dy = currentY - lastY;
       const dist = Math.hypot(dx, dy);
 
-      if (dist > 1.5 && currentX >= 0) {
-        const steps = Math.min(Math.floor(dist / 3), 8);
+      if (dist > 1 && currentX >= 0) {
+        const steps = Math.min(Math.floor(dist / 2.5), 10);
         for (let i = 0; i <= steps; i++) {
           const px = lastX + (dx * i) / steps;
           const py = lastY + (dy * i) / steps;
 
           particles.push({
-            x: px + (Math.random() - 0.5) * 10,
-            y: py + (Math.random() - 0.5) * 10,
-            vx: (Math.random() - 0.5) * 1.8,
-            vy: (Math.random() - 0.5) * 1.8 - 0.4, // gentle float up
+            x: px + (Math.random() - 0.5) * 8,
+            y: py + (Math.random() - 0.5) * 8,
+            vx: (Math.random() - 0.5) * 2,
+            vy: (Math.random() - 0.5) * 2 - 0.5, // magical float upward
             size: Math.random() * 4.5 + 1.5,
             color: colors[Math.floor(Math.random() * colors.length)],
             alpha: 1,
             life: 1,
-            decay: Math.random() * 0.028 + 0.015,
+            decay: Math.random() * 0.03 + 0.015,
           });
         }
         lastX = currentX;
         lastY = currentY;
       }
 
-      // Render brush sparkles
+      // Render stardust brush trail
       for (let i = particles.length - 1; i >= 0; i--) {
         const p = particles[i];
         p.x += p.vx;
         p.y += p.vy;
         p.life -= p.decay;
-        p.size *= 0.96;
+        p.size *= 0.95;
 
         if (p.life <= 0 || p.size <= 0.2) {
           particles.splice(i, 1);
@@ -109,7 +113,7 @@ const CustomCursor = () => {
 
         ctx.save();
         ctx.globalAlpha = p.life;
-        ctx.shadowBlur = 14;
+        ctx.shadowBlur = 15;
         ctx.shadowColor = p.color;
         ctx.fillStyle = p.color;
 
@@ -138,26 +142,29 @@ const CustomCursor = () => {
 
   return (
     <>
-      {/* Fullscreen Canvas for Magic Brush Trail */}
+      {/* Fullscreen Canvas for Magic Brush Stardust Trail */}
       <canvas
         ref={canvasRef}
         className="fixed inset-0 pointer-events-none z-[9998]"
       />
 
-      {/* Main Core Pointer Dot */}
+      {/* Instant Precision Core Tip Dot (Zero CSS transform latency) */}
       <div
         ref={cursorRef}
-        className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full transition-all duration-75 ease-out flex items-center justify-center"
+        className="fixed top-0 left-0 pointer-events-none z-[9999] w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_12px_#06b6d4,0_0_20px_#8b5cf6]"
+      />
+
+      {/* Outer Holographic Halo Ring */}
+      <div
+        ref={ringRef}
+        className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full border border-cyan-400/50 shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-[width,height,background,border-color] duration-200 ease-out flex items-center justify-center"
         style={{
-          width: isHovering ? "40px" : "14px",
-          height: isHovering ? "40px" : "14px",
+          width: isHovering ? "44px" : "32px",
+          height: isHovering ? "44px" : "32px",
           background: isHovering
-            ? "radial-gradient(circle, rgba(6,182,212,0.4) 0%, rgba(139,92,246,0.1) 70%, transparent 100%)"
-            : "#06b6d4",
-          boxShadow: isHovering
-            ? "0 0 30px rgba(6,182,212,0.9), inset 0 0 12px rgba(139,92,246,0.7)"
-            : "0 0 15px #06b6d4, 0 0 30px #8b5cf6, 0 0 45px #10b981",
-          border: isHovering ? "1.5px solid rgba(6,182,212,0.9)" : "none",
+            ? "radial-gradient(circle, rgba(6,182,212,0.25) 0%, rgba(139,92,246,0.1) 70%, transparent 100%)"
+            : "transparent",
+          borderColor: isHovering ? "rgba(6,182,212,0.9)" : "rgba(6,182,212,0.4)",
         }}
       />
     </>

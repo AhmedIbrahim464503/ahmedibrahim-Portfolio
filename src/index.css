@@ -218,9 +218,3 @@
 .animate-spin-slow {
   animation: spin-slow 25s linear infinite;
 }
-
-@media (pointer: fine) {
-  * {
-    cursor: none !important;
-  }
-}
